@@ -15,7 +15,7 @@ public class LanguagesController {
         this.languageService = languageService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<Language> getAll() {
         return languageService.getAll();
     }
@@ -25,7 +25,7 @@ public class LanguagesController {
         return languageService.getById(id);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public void create(@RequestBody Language language) {
         languageService.create(language);
     }
