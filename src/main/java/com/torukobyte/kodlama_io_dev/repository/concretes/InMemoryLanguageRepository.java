@@ -1,6 +1,6 @@
-package com.torukobyte.kodlama_io_dev.dataAccess.concretes;
+package com.torukobyte.kodlama_io_dev.repository.concretes;
 
-import com.torukobyte.kodlama_io_dev.dataAccess.abstracts.LanguageRepository;
+import com.torukobyte.kodlama_io_dev.repository.abstracts.LanguageRepository;
 import com.torukobyte.kodlama_io_dev.entities.concretes.Language;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 package com.torukobyte.kodlama_io_dev.business.concretes;
 
 import com.torukobyte.kodlama_io_dev.business.abstracts.LanguageService;
-import com.torukobyte.kodlama_io_dev.dataAccess.abstracts.LanguageRepository;
+import com.torukobyte.kodlama_io_dev.repository.abstracts.LanguageRepository;
 import com.torukobyte.kodlama_io_dev.entities.concretes.Language;
 import org.springframework.stereotype.Service;
 
@@ -61,12 +61,10 @@ public class LanguageManager implements LanguageService {
     }
 
     public boolean isLanguageExists(Language language) {
-        return languageRepository.getAll().stream().anyMatch(l -> l.getName()
-                                                                   .equals(language.getName()));
+        return languageRepository.getAll().stream().anyMatch(l -> l.getName().equals(language.getName()));
     }
 
     public boolean checkLanguageNameValid(Language language) {
-        return language.getName().isEmpty() || language.getName().isBlank() || language.getName()
-                                                                                       .length() < 2;
+        return language.getName().isEmpty() || language.getName().isBlank() || language.getName().length() < 2;
     }
 }

@@ -1,4 +1,4 @@
-package com.torukobyte.kodlama_io_dev.dataAccess.abstracts;
+package com.torukobyte.kodlama_io_dev.repository.abstracts;
 
 import com.torukobyte.kodlama_io_dev.entities.concretes.Language;
 

@@ -8,6 +8,6 @@ public interface LanguageService {
     List<Language> getAll();
     Language getById(int id);
     void create(Language language);
-    void update(Language language,int id);
+    void update(Language language, int id);
     void delete(int id);
 }
