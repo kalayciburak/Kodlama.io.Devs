@@ -23,7 +23,7 @@ public class TechnologiesController {
         return technologyService.getAll();
     }
 
-    @GetMapping(name = "GetTechnologyById",path = "/{id}")
+    @GetMapping(name = "GetTechnologyById", path = "/{id}")
     public GetTechnologyByIdResponse getById(@PathVariable int id) {
         return technologyService.getById(id);
     }
@@ -34,12 +34,12 @@ public class TechnologiesController {
         return technologyService.create(technology);
     }
 
-    @PutMapping(name = "UpdateTechnology",path = "/{id}")
+    @PutMapping(name = "UpdateTechnology", path = "/{id}")
     public UpdateTechnologyRequest update(@RequestBody UpdateTechnologyRequest technology, @PathVariable int id) {
         return technologyService.update(technology, id);
     }
 
-    @DeleteMapping(name = "DeleteTechnology",path = "/{id}")
+    @DeleteMapping(name = "DeleteTechnology", path = "/{id}")
     @ResponseStatus(code = org.springframework.http.HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         technologyService.delete(id);
