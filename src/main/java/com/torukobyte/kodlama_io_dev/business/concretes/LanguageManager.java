@@ -1,8 +1,14 @@
 package com.torukobyte.kodlama_io_dev.business.concretes;
 
 import com.torukobyte.kodlama_io_dev.business.abstracts.LanguageService;
-import com.torukobyte.kodlama_io_dev.repository.abstracts.LanguageRepository;
+import com.torukobyte.kodlama_io_dev.business.constants.Message;
+import com.torukobyte.kodlama_io_dev.business.requests.languages.CreateLanguageRequest;
+import com.torukobyte.kodlama_io_dev.business.requests.languages.UpdateLanguageRequest;
+import com.torukobyte.kodlama_io_dev.business.responses.languages.GetAllLanguagesResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.languages.GetLanguageByIdResponse;
 import com.torukobyte.kodlama_io_dev.entities.concretes.Language;
+import com.torukobyte.kodlama_io_dev.mappers.LanguageMapper;
+import com.torukobyte.kodlama_io_dev.repository.abstracts.LanguageRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,60 +17,69 @@ import java.util.List;
 public class LanguageManager implements LanguageService {
     LanguageRepository languageRepository;
 
-    public LanguageManager(LanguageRepository languageRepository) {
+    LanguageMapper languageMapper;
+
+    public LanguageManager(LanguageRepository languageRepository, LanguageMapper languageMapper) {
         this.languageRepository = languageRepository;
+        this.languageMapper = languageMapper;
     }
 
     @Override
-    public List<Language> getAll() {
-        return languageRepository.getAll();
+    public List<GetAllLanguagesResponse> getAll() {
+        List<Language> languages = languageRepository.findAll();
+        return languageMapper.toLanguages(languages);
     }
 
     @Override
-    public Language getById(int id) {
-        return languageRepository.getById(id);
+    public GetLanguageByIdResponse getById(int id) {
+        Language language = languageRepository.findById(id).get();
+        return languageMapper.toLanguage(language);
     }
 
     @Override
-    public void create(Language language) {
-        if (isLanguageExists(language)) {
-            throw new RuntimeException("Language already exists");
-        }
-
+    public CreateLanguageRequest create(CreateLanguageRequest request) {
+        Language language = languageMapper.toCreateLanguageRequest(request);
         if (checkLanguageNameValid(language)) {
-            throw new RuntimeException("Language name is not valid");
-        }
-
-        languageRepository.create(language);
-    }
-
-    @Override
-    public void update(Language language, int id) {
-        if (languageRepository.getById(id) == null) {
-            throw new RuntimeException("Language id is not valid");
+            throw new RuntimeException(Message.LANGUAGE_NAME_IS_NOT_VALID);
         }
 
         if (isLanguageExists(language)) {
-            throw new RuntimeException("Language already exists");
+            throw new RuntimeException(Message.LANGUAGE_ALREADY_EXISTS);
         }
+
+        languageRepository.save(language);
+
+        return request;
+    }
+
+    @Override
+    public UpdateLanguageRequest update(UpdateLanguageRequest request, int id) {
+        Language language = languageRepository.findById(id).get();
+        languageMapper.update(language, request);
 
         if (checkLanguageNameValid(language)) {
-            throw new RuntimeException("Language name is not valid");
+            throw new RuntimeException(Message.LANGUAGE_NAME_IS_NOT_VALID);
         }
 
-        languageRepository.update(language, id);
+        if (isLanguageExists(language)) {
+            throw new RuntimeException(Message.LANGUAGE_ALREADY_EXISTS);
+        }
+
+        languageRepository.save(language);
+
+        return request;
     }
 
     @Override
     public void delete(int id) {
-        languageRepository.delete(id);
+        languageRepository.deleteById(id);
     }
 
     public boolean isLanguageExists(Language language) {
-        return languageRepository.getAll().stream().anyMatch(l -> l.getName().equals(language.getName()));
+        return languageRepository.existsByName(language.getName());
     }
 
     public boolean checkLanguageNameValid(Language language) {
-        return language.getName().isEmpty() || language.getName().isBlank() || language.getName().length() < 2;
+        return language.getName().isEmpty() || language.getName().isBlank();
     }
 }
