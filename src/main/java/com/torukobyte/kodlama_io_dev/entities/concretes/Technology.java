@@ -18,8 +18,10 @@ public class Technology {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
     @Column(name = "name")
     private String name;
+
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "language_id")
     private Language language;
