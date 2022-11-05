@@ -8,7 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetAllTechnologiesResponse {
-    private int id;
-
     private String name;
 }

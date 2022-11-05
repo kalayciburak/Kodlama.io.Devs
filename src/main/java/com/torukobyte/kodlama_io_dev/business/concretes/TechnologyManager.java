@@ -18,9 +18,7 @@ import java.util.List;
 @Service
 public class TechnologyManager implements TechnologyService {
     TechnologyRepository technologyRepository;
-
     TechnologyMapper technologyMapper;
-
     LanguageRepository languageRepository;
 
     public TechnologyManager(

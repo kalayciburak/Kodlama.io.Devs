@@ -16,7 +16,6 @@ import java.util.List;
 @Service
 public class LanguageManager implements LanguageService {
     LanguageRepository languageRepository;
-
     LanguageMapper languageMapper;
 
     public LanguageManager(LanguageRepository languageRepository, LanguageMapper languageMapper) {
