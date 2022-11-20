@@ -1,10 +1,12 @@
 package com.torukobyte.kodlama_io_dev.business.requests.technologies;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateTechnologyRequest {

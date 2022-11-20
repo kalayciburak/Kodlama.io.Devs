@@ -3,8 +3,10 @@ package com.torukobyte.kodlama_io_dev.api.controllers;
 import com.torukobyte.kodlama_io_dev.business.abstracts.LanguageService;
 import com.torukobyte.kodlama_io_dev.business.requests.languages.CreateLanguageRequest;
 import com.torukobyte.kodlama_io_dev.business.requests.languages.UpdateLanguageRequest;
-import com.torukobyte.kodlama_io_dev.business.responses.languages.GetAllLanguagesResponse;
-import com.torukobyte.kodlama_io_dev.business.responses.languages.GetLanguageByIdResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.languages.CreateLanguageResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.languages.GetAllLanguageResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.languages.GetLanguageResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.languages.UpdateLanguageResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,23 +21,23 @@ public class LanguagesController {
     }
 
     @GetMapping
-    public List<GetAllLanguagesResponse> getAll() {
+    public List<GetAllLanguageResponse> getAll() {
         return languageService.getAll();
     }
 
     @GetMapping("/{id}")
-    public GetLanguageByIdResponse getById(@PathVariable int id) {
+    public GetLanguageResponse getById(@PathVariable int id) {
         return languageService.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(code = org.springframework.http.HttpStatus.CREATED)
-    public CreateLanguageRequest create(@RequestBody CreateLanguageRequest language) {
+    public CreateLanguageResponse create(@RequestBody CreateLanguageRequest language) {
         return languageService.create(language);
     }
 
     @PutMapping("/{id}")
-    public UpdateLanguageRequest update(@RequestBody UpdateLanguageRequest language, @PathVariable int id) {
+    public UpdateLanguageResponse update(@RequestBody UpdateLanguageRequest language, @PathVariable int id) {
         return languageService.update(language, id);
     }
 

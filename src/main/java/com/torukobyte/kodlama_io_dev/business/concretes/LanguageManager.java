@@ -4,40 +4,39 @@ import com.torukobyte.kodlama_io_dev.business.abstracts.LanguageService;
 import com.torukobyte.kodlama_io_dev.business.constants.Message;
 import com.torukobyte.kodlama_io_dev.business.requests.languages.CreateLanguageRequest;
 import com.torukobyte.kodlama_io_dev.business.requests.languages.UpdateLanguageRequest;
-import com.torukobyte.kodlama_io_dev.business.responses.languages.GetAllLanguagesResponse;
-import com.torukobyte.kodlama_io_dev.business.responses.languages.GetLanguageByIdResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.languages.CreateLanguageResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.languages.GetAllLanguageResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.languages.GetLanguageResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.languages.UpdateLanguageResponse;
 import com.torukobyte.kodlama_io_dev.entities.concretes.Language;
 import com.torukobyte.kodlama_io_dev.mappers.LanguageMapper;
 import com.torukobyte.kodlama_io_dev.repository.abstracts.LanguageRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class LanguageManager implements LanguageService {
     LanguageRepository languageRepository;
-    LanguageMapper languageMapper;
-
-    public LanguageManager(LanguageRepository languageRepository, LanguageMapper languageMapper) {
-        this.languageRepository = languageRepository;
-        this.languageMapper = languageMapper;
-    }
+    LanguageMapper mapper;
 
     @Override
-    public List<GetAllLanguagesResponse> getAll() {
+    public List<GetAllLanguageResponse> getAll() {
         List<Language> languages = languageRepository.findAll();
-        return languageMapper.toLanguages(languages);
+        return mapper.toGetAllLanguageResponse(languages);
     }
 
     @Override
-    public GetLanguageByIdResponse getById(int id) {
+    public GetLanguageResponse getById(int id) {
         Language language = languageRepository.findById(id).get();
-        return languageMapper.toLanguage(language);
+        return mapper.toGetLanguageResponse(language);
     }
 
     @Override
-    public CreateLanguageRequest create(CreateLanguageRequest request) {
-        Language language = languageMapper.toCreateLanguageRequest(request);
+    public CreateLanguageResponse create(CreateLanguageRequest request) {
+        Language language = mapper.toLanguage(request);
         if (checkLanguageNameValid(language)) {
             throw new RuntimeException(Message.LANGUAGE_NAME_IS_NOT_VALID);
         }
@@ -48,13 +47,13 @@ public class LanguageManager implements LanguageService {
 
         languageRepository.save(language);
 
-        return request;
+        return mapper.toCreateLanguageResponse(language);
     }
 
     @Override
-    public UpdateLanguageRequest update(UpdateLanguageRequest request, int id) {
+    public UpdateLanguageResponse update(UpdateLanguageRequest request, int id) {
         Language language = languageRepository.findById(id).get();
-        languageMapper.update(language, request);
+        mapper.update(language, request);
 
         if (checkLanguageNameValid(language)) {
             throw new RuntimeException(Message.LANGUAGE_NAME_IS_NOT_VALID);
@@ -66,7 +65,7 @@ public class LanguageManager implements LanguageService {
 
         languageRepository.save(language);
 
-        return request;
+        return mapper.toUpdateLanguageResponse(language);
     }
 
     @Override

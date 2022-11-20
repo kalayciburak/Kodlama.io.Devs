@@ -2,20 +2,23 @@ package com.torukobyte.kodlama_io_dev.mappers;
 
 import com.torukobyte.kodlama_io_dev.business.requests.languages.CreateLanguageRequest;
 import com.torukobyte.kodlama_io_dev.business.requests.languages.UpdateLanguageRequest;
-import com.torukobyte.kodlama_io_dev.business.responses.languages.GetAllLanguagesResponse;
-import com.torukobyte.kodlama_io_dev.business.responses.languages.GetLanguageByIdResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.languages.CreateLanguageResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.languages.GetAllLanguageResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.languages.GetLanguageResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.languages.UpdateLanguageResponse;
 import com.torukobyte.kodlama_io_dev.entities.concretes.Language;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 @Mapper(componentModel = "spring")
 public interface LanguageMapper {
-    List<GetAllLanguagesResponse> toLanguages(List<Language> languages);
-    GetLanguageByIdResponse toLanguage(Language language);
-    Language toCreateLanguageRequest(CreateLanguageRequest request);
+    GetAllLanguageResponse toGetAllLanguageResponse(Language language);
+    List<GetAllLanguageResponse> toGetAllLanguageResponse(List<Language> languages);
+    GetLanguageResponse toGetLanguageResponse(Language language);
+    Language toLanguage(CreateLanguageRequest request);
+    CreateLanguageResponse toCreateLanguageResponse(Language language);
     void update(@MappingTarget Language language, UpdateLanguageRequest request);
+    UpdateLanguageResponse toUpdateLanguageResponse(Language language);
 }

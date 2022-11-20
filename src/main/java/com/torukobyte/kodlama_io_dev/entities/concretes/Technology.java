@@ -23,6 +23,6 @@ public class Technology {
     private String name;
 
     @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "language_id")
+    @JoinColumn(name = "language_id", referencedColumnName = "id")
     private Language language;
 }

@@ -1,6 +1,5 @@
 package com.torukobyte.kodlama_io_dev.entities.concretes;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +23,6 @@ public class Language {
     @Column(name = "name")
     private String name;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "language", cascade = CascadeType.DETACH)
     private List<Technology> technologies;
 }

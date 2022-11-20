@@ -1,4 +1,4 @@
-package com.torukobyte.kodlama_io_dev.business.requests.languages;
+package com.torukobyte.kodlama_io_dev.business.responses.technologies;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateLanguageRequest {
+public class GetTechnologyResponse {
+    private int id;
     private String name;
+    private String languageName;
 }

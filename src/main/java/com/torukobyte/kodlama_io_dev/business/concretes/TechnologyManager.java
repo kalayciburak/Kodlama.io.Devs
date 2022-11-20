@@ -4,50 +4,39 @@ import com.torukobyte.kodlama_io_dev.business.abstracts.TechnologyService;
 import com.torukobyte.kodlama_io_dev.business.constants.Message;
 import com.torukobyte.kodlama_io_dev.business.requests.technologies.CreateTechnologyRequest;
 import com.torukobyte.kodlama_io_dev.business.requests.technologies.UpdateTechnologyRequest;
-import com.torukobyte.kodlama_io_dev.business.responses.technologies.GetAllTechnologiesResponse;
-import com.torukobyte.kodlama_io_dev.business.responses.technologies.GetTechnologyByIdResponse;
-import com.torukobyte.kodlama_io_dev.entities.concretes.Language;
+import com.torukobyte.kodlama_io_dev.business.responses.technologies.CreateTechnologyResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.technologies.GetAllTechnologyResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.technologies.GetTechnologyResponse;
+import com.torukobyte.kodlama_io_dev.business.responses.technologies.UpdateTechnologyResponse;
 import com.torukobyte.kodlama_io_dev.entities.concretes.Technology;
 import com.torukobyte.kodlama_io_dev.mappers.TechnologyMapper;
-import com.torukobyte.kodlama_io_dev.repository.abstracts.LanguageRepository;
 import com.torukobyte.kodlama_io_dev.repository.abstracts.TechnologyRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class TechnologyManager implements TechnologyService {
     TechnologyRepository technologyRepository;
-    TechnologyMapper technologyMapper;
-    LanguageRepository languageRepository;
-
-    public TechnologyManager(
-            TechnologyRepository technologyRepository,
-            TechnologyMapper technologyMapper,
-            LanguageRepository languageRepository) {
-        this.technologyRepository = technologyRepository;
-        this.technologyMapper = technologyMapper;
-        this.languageRepository = languageRepository;
-    }
+    TechnologyMapper mapper;
 
     @Override
-    public List<GetAllTechnologiesResponse> getAll() {
+    public List<GetAllTechnologyResponse> getAll() {
         List<Technology> technologies = technologyRepository.findAll();
-        return technologyMapper.toTechnologies(technologies);
+        return mapper.toGetAllTechnologyResponse(technologies);
     }
 
     @Override
-    public GetTechnologyByIdResponse getById(int id) {
+    public GetTechnologyResponse getById(int id) {
         Technology technology = technologyRepository.findById(id).get();
-        return technologyMapper.toTechnology(technology);
+        return mapper.toTechnology(technology);
     }
 
     @Override
-    public CreateTechnologyRequest create(CreateTechnologyRequest request) {
-        Technology technology = technologyMapper.toCreateTechnologyRequest(request);
-
-        Language language = languageRepository.findById(request.getLanguageId()).get();
-        technology.setLanguage(language);
+    public CreateTechnologyResponse create(CreateTechnologyRequest request) {
+        Technology technology = mapper.toTechnology(request);
 
         if (checkTechnologyNameValid(technology)) {
             throw new RuntimeException(Message.LANGUAGE_NAME_IS_NOT_VALID);
@@ -59,13 +48,13 @@ public class TechnologyManager implements TechnologyService {
 
         technologyRepository.save(technology);
 
-        return request;
+        return mapper.toCreateTechnologyResponse(technology);
     }
 
     @Override
-    public UpdateTechnologyRequest update(UpdateTechnologyRequest request, int id) {
+    public UpdateTechnologyResponse update(UpdateTechnologyRequest request, int id) {
         Technology technology = technologyRepository.findById(id).get();
-        technologyMapper.update(technology, request);
+        mapper.update(technology, request);
 
         if (checkTechnologyNameValid(technology)) {
             throw new RuntimeException(Message.LANGUAGE_NAME_IS_NOT_VALID);
@@ -77,12 +66,16 @@ public class TechnologyManager implements TechnologyService {
             }
         }
 
-        Language language = languageRepository.findById(request.getLanguageId()).get();
-        technology.setLanguage(language);
+        // TODO: Will fix this later
+        try {
+            technologyRepository.save(technology);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        } finally {
+            technologyRepository.save(technology);
+        }
 
-        technologyRepository.save(technology);
-
-        return request;
+        return mapper.toUpdateTechnologyResponse(technology);
     }
 
     @Override
