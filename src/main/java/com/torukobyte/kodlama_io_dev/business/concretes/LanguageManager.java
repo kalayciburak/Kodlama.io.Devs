@@ -2,6 +2,7 @@ package com.torukobyte.kodlama_io_dev.business.concretes;
 
 import com.torukobyte.kodlama_io_dev.business.abstracts.LanguageService;
 import com.torukobyte.kodlama_io_dev.business.constants.Message;
+import com.torukobyte.kodlama_io_dev.business.mappers.LanguageMapper;
 import com.torukobyte.kodlama_io_dev.business.requests.languages.CreateLanguageRequest;
 import com.torukobyte.kodlama_io_dev.business.requests.languages.UpdateLanguageRequest;
 import com.torukobyte.kodlama_io_dev.business.responses.languages.CreateLanguageResponse;
@@ -9,7 +10,6 @@ import com.torukobyte.kodlama_io_dev.business.responses.languages.GetAllLanguage
 import com.torukobyte.kodlama_io_dev.business.responses.languages.GetLanguageResponse;
 import com.torukobyte.kodlama_io_dev.business.responses.languages.UpdateLanguageResponse;
 import com.torukobyte.kodlama_io_dev.entities.concretes.Language;
-import com.torukobyte.kodlama_io_dev.mappers.LanguageMapper;
 import com.torukobyte.kodlama_io_dev.repository.abstracts.LanguageRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

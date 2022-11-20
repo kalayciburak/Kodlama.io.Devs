@@ -1,4 +1,4 @@
-package com.torukobyte.kodlama_io_dev.mappers;
+package com.torukobyte.kodlama_io_dev.business.mappers;
 
 import com.torukobyte.kodlama_io_dev.business.requests.technologies.CreateTechnologyRequest;
 import com.torukobyte.kodlama_io_dev.business.requests.technologies.UpdateTechnologyRequest;
